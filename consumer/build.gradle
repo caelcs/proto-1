@@ -23,14 +23,6 @@ group 'uk.co.caeldev.consumer'
 project.version = scmVersion.version
 mainClassName = "io.ktor.server.netty.DevelopmentEngine"
 
-sourceCompatibility = 1.8
-
-repositories {
-    jcenter()
-    maven { url "https://dl.bintray.com/kotlin/ktor" }
-    mavenCentral()
-}
-
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
@@ -58,10 +50,6 @@ kotlin {
     experimental {
         coroutines "enable"
     }
-}
-
-wrapper {
-    distributionType = Wrapper.DistributionType.ALL
 }
 
 compileKotlin {

@@ -1,0 +1,16 @@
+allprojects {
+    version = "1.0"
+}
+
+subprojects {
+
+    repositories {
+        jcenter()
+        maven { url "https://dl.bintray.com/kotlin/ktor" }
+        mavenCentral()
+    }
+
+    wrapper {
+        distributionType = Wrapper.DistributionType.ALL
+    }
+}
