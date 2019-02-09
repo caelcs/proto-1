@@ -60,6 +60,10 @@ kotlin {
     }
 }
 
+wrapper {
+    distributionType = Wrapper.DistributionType.ALL
+}
+
 compileKotlin {
     kotlinOptions.jvmTarget = "1.8"
 }
