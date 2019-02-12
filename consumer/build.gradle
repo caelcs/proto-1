@@ -23,6 +23,12 @@ group 'uk.co.caeldev.consumer'
 project.version = scmVersion.version
 mainClassName = "io.ktor.server.netty.DevelopmentEngine"
 
+repositories {
+    jcenter()
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
+    mavenCentral()
+}
+
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     implementation "org.jetbrains.kotlin:kotlin-reflect"
