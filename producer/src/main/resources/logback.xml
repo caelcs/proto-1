@@ -12,5 +12,6 @@
     <logger name="org.eclipse.jetty" level="INFO"/>
     <logger name="uk.co.caeldev" level="INFO"/>
     <logger name="io.netty" level="INFO"/>
+    <logger name="org.apache.kafka.streams" level="DEBUG"/>
 
 </configuration>

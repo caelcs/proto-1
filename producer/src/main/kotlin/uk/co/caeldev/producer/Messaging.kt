@@ -1,12 +1,12 @@
 package uk.co.caeldev.producer
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.ser.std.StringSerializer
+import org.apache.kafka.common.serialization.StringSerializer
 import io.ktor.config.HoconApplicationConfig
 import org.apache.kafka.clients.producer.KafkaProducer
+import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
-import org.koin.core.parameter.parametersOf
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
@@ -27,11 +27,12 @@ class MessagingService<T>: KoinComponent {
     private val objectMapper: ObjectMapper by inject()
     private val producer: KafkaProducer<String, String>
 
-    init {
+    constructor() {
         val props = Properties()
-        props["bootstrap.servers"] = config.property("ktor.kafka.brokers").getString()
-        props["key.serializer"] = StringSerializer::class.java
-        props["value.serializer"] = StringSerializer::class.java
+        props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = config.property("ktor.kafka.brokers").getString()
+        props[ProducerConfig.CLIENT_ID_CONFIG] = "producer"
+        props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
+        props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         producer = KafkaProducer(props)
     }
 

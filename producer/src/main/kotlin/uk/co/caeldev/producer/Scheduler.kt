@@ -35,7 +35,7 @@ fun Routing.scheduler() {
     post("/messages") {
         val payload = call.receive<Person>()
         val key = "${payload.name}:${payload.lastName}"
-        messagingService.createMessage("testPerson", key, payload)
+        messagingService.createMessage("admintome-test", key, payload)
         call.respond(OK, "Person created")
     }
 }
