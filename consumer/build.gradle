@@ -8,6 +8,7 @@ buildscript {
         logback_version = '1.2.3'
         koin_version = '1.0.2'
         micrometer_version = '1.1.0'
+        kafka_version = '2.1.0'
     }
 }
 
@@ -38,6 +39,11 @@ dependencies {
     implementation "org.koin:koin-ktor:$koin_version"
     implementation "org.koin:koin-logger-slf4j:$koin_version"
     implementation "io.micrometer:micrometer-registry-prometheus:$micrometer_version"
+    implementation "org.apache.kafka:kafka-clients:$kafka_version"
+    implementation "org.apache.kafka:kafka-streams:$kafka_version"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.9.8"
+    implementation "io.ktor:ktor-jackson:$ktor_version"
 
     testImplementation "uk.co.caeldev:builder4test:$builder4test_version"
     testImplementation "io.mockk:mockk:$mockk_version"
