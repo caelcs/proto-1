@@ -7,11 +7,18 @@ import io.ktor.response.respond
 import io.ktor.routing.Routing
 import io.ktor.routing.post
 import org.koin.dsl.module.module
-import org.koin.ktor.ext.inject
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
+import org.quartz.Job
+import org.quartz.JobBuilder.newJob
+import org.quartz.JobDetail
+import org.quartz.JobExecutionContext
 import org.quartz.Scheduler
+import org.quartz.TriggerBuilder.newTrigger
 import org.quartz.impl.StdSchedulerFactory
+import uk.org.fyodor.generators.RDG.integer
+import uk.org.fyodor.generators.RDG.string
+
 
 val schedulerModule = module {
     single {
@@ -26,18 +33,49 @@ class SchedulerManager: KoinComponent {
     fun start() {
         scheduler.start()
     }
+
+    fun scheduleNow(job: JobDetail) {
+
+        val trigger = newTrigger()
+                .withIdentity("PersonTrigger", "Persona")
+                .startNow()
+                .build()
+
+        scheduler.scheduleJob(job, trigger)
+    }
 }
 
 fun Routing.scheduler() {
 
-    val messagingService: MessagingService<Person> by inject("messagingServicePerson")
+    val scheduler = SchedulerManager()
 
-    post("/messages") {
-        val payload = call.receive<Person>()
-        val key = "${payload.name}:${payload.lastName}"
-        messagingService.createMessage("admintome-test", key, payload)
+    post("/jobs") {
+        val payload = call.receive<JobRequest>()
+        val job = newJob(PersonJob::class.java)
+                .withIdentity("PersonJob-${payload.name}-${integer().next()}", "Persona")
+                .usingJobData("numberOfRecords", payload.numberOfRecords)
+                .build()
+
+        scheduler.scheduleNow(job = job)
         call.respond(OK, "Person created")
     }
 }
 
-data class Person(val name: String, val lastName: String)
+data class JobRequest(val name: String, val numberOfRecords: Int)
+
+class PersonJob: Job {
+
+    private val messageService: MessagingService<Person> = MessagingService()
+
+    constructor(){}
+
+    override fun execute(context: JobExecutionContext?) {
+        val dataMap = context?.jobDetail?.jobDataMap
+
+        val numberOfRecords = if (dataMap?.containsKey("numberOfRecords") == true) dataMap?.getInt("numberOfRecords") else 0
+
+        repeat(numberOfRecords) {
+            messageService.createMessage("admintome-test", string().next(), Person(string().next(), string().next()))
+        }
+    }
+}

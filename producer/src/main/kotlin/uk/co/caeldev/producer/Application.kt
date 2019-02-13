@@ -50,6 +50,7 @@ fun Application.main() {
 
     routing {
         admin()
+        messaging()
         scheduler()
     }
 }
