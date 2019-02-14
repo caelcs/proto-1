@@ -13,6 +13,8 @@ Both apps are going to expose basic metrics to monitor the resources.
 
 ## How to use it
 
-First run kafka by executing
+install all platform by executing
 
-```docker-compose -f kafka.yml up -d```
+```./install.sh```
+
+this will install kafka, zookeeper, 3 consumers and 1 producer
