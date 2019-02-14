@@ -41,7 +41,6 @@ class KafkaConfig: KoinComponent {
 
     init {
         props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = config.property("ktor.kafka.brokers").getString()
-        props[ProducerConfig.CLIENT_ID_CONFIG] = config.property("ktor.kafka.clientId").getString()
         props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
     }
@@ -51,10 +50,11 @@ class MessagingService<T>: KoinComponent {
 
     private val objectMapper: ObjectMapper by inject()
     private val config: KafkaConfig by inject()
+    private val configYml: HoconApplicationConfig by inject()
     private val producer: KafkaProducer<String, String> by inject { parametersOf(config.props) }
 
-    fun createMessage(topic: String, key: String, payload: T): Future<RecordMetadata> {
-        return producer.send(ProducerRecord(topic, key, objectMapper.writeValueAsString(payload)))
+    fun createMessage(key: String, payload: T): Future<RecordMetadata> {
+        return producer.send(ProducerRecord(configYml.property("ktor.kafka.proto1Topic").getString(), key, objectMapper.writeValueAsString(payload)))
     }
 }
 
@@ -62,12 +62,11 @@ class MessagingService<T>: KoinComponent {
 fun Routing.messaging() {
 
     val messagingService: MessagingService<Person> by inject("messagingServicePerson")
-    val config: HoconApplicationConfig by inject()
 
     post("/messages") {
         val payload = call.receive<Person>()
         val key = "${payload.name}:${payload.lastName}"
-        messagingService.createMessage(config.property("ktor.kafka.proto1Topic").getString(), key, payload)
+        messagingService.createMessage(key, payload)
         call.respond(HttpStatusCode.OK, "Person created")
     }
 }

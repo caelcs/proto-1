@@ -75,7 +75,7 @@ class PersonJob: Job {
         val numberOfRecords = if (dataMap?.containsKey("numberOfRecords") == true) dataMap?.getInt("numberOfRecords") else 0
 
         repeat(numberOfRecords) {
-            messageService.createMessage("admintome-test", string().next(), Person(string().next(), string().next()))
+            messageService.createMessage(string().next(), Person(string().next(), string().next()))
         }
     }
 }
