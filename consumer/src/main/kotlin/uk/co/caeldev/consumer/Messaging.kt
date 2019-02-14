@@ -27,10 +27,8 @@ class KafkaConfig: KoinComponent {
     val props = Properties()
 
     init {
-        props[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = config.property("ktor.kafka.brokers").getString()
-        props[ConsumerConfig.GROUP_ID_CONFIG] = config.property("ktor.kafka.applicationId").getString()
-        props[ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
-        props[ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG] = StringDeserializer::class.java
+        props[StreamsConfig.BOOTSTRAP_SERVERS_CONFIG] = config.property("ktor.kafka.brokers").getString()
+        props[StreamsConfig.APPLICATION_ID_CONFIG] = config.property("ktor.kafka.applicationId").getString()
     }
 }
 
@@ -41,21 +39,18 @@ class StreamsProcessor: KoinComponent {
     private val metricRegistry: MetricRegistry by inject()
 
     fun process() {
+        val streamsBuilder = StreamsBuilder()
 
-        Thread({
-            val consumer = KafkaConsumer<String, String>(config.props)
-            consumer.subscribe(listOf(configYml.property("ktor.kafka.proto1Topic").getString()))
+        val personJsonStream: KStream<String, String> = streamsBuilder
+                .stream(configYml.property("ktor.kafka.proto1Topic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
 
-            val running = true
-            while (running) {
-                val records = consumer.poll(Duration.ofMillis(100))
-                for (record in records) {
-                    metricRegistry.countMessage()
-                }
-            }
+        personJsonStream.peek { key, value ->
+            metricRegistry.countMessage()
+        }
 
-            consumer.close()
-        }).start()
+        val topology = streamsBuilder.build()
 
+        val streams = KafkaStreams(topology, config.props)
+        streams.start()
     }
 }

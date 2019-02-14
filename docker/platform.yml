@@ -32,7 +32,7 @@ services:
       - zoo1
 
   producer1:
-    image: adolfoecs/producer:latest6
+    image: adolfoecs/producer:latest7
     hostname: producer1
     ports:
       - "8080:8080"
@@ -43,7 +43,7 @@ services:
       - kafka1
 
   consumer1:
-    image: adolfoecs/consumer:latest6
+    image: adolfoecs/consumer:latest7
     hostname: consumer1
     ports:
       - "8090:8090"
@@ -55,7 +55,7 @@ services:
       - kafka1
 
   consumer2:
-    image: adolfoecs/consumer:latest6
+    image: adolfoecs/consumer:latest7
     hostname: consumer2
     ports:
       - "8091:8091"
@@ -67,7 +67,7 @@ services:
       - kafka1
 
   consumer3:
-    image: adolfoecs/consumer:latest6
+    image: adolfoecs/consumer:latest7
     hostname: consumer3
     ports:
       - "8092:8092"
