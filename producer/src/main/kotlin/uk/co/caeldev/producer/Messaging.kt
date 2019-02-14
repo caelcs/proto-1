@@ -62,11 +62,12 @@ class MessagingService<T>: KoinComponent {
 fun Routing.messaging() {
 
     val messagingService: MessagingService<Person> by inject("messagingServicePerson")
+    val config: HoconApplicationConfig by inject()
 
     post("/messages") {
         val payload = call.receive<Person>()
         val key = "${payload.name}:${payload.lastName}"
-        messagingService.createMessage("admintome-test", key, payload)
+        messagingService.createMessage(config.property("ktor.kafka.proto1Topic").getString(), key, payload)
         call.respond(HttpStatusCode.OK, "Person created")
     }
 }

@@ -31,14 +31,14 @@ class KafkaConfig: KoinComponent {
 class StreamsProcessor: KoinComponent {
 
     private val config: KafkaConfig by inject()
-
+    private val configYml: HoconApplicationConfig by inject()
     private val metricRegistry: MetricRegistry by inject()
 
     fun process() {
         val streamsBuilder = StreamsBuilder()
 
         val personJsonStream: KStream<String, String> = streamsBuilder
-                .stream("admintome-test", Consumed.with(Serdes.String(), Serdes.String()))
+                .stream(configYml.property("ktor.kafka.proto1Topic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
 
         personJsonStream.peek { key, value ->
             metricRegistry.countMessage()
