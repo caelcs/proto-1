@@ -41,7 +41,7 @@ class KafkaConfig: KoinComponent {
 
     init {
         props[ProducerConfig.BOOTSTRAP_SERVERS_CONFIG] = config.property("ktor.kafka.brokers").getString()
-        props[ProducerConfig.CLIENT_ID_CONFIG] = config.property("ktor.kafka.brokers.clientId").getString()
+        props[ProducerConfig.CLIENT_ID_CONFIG] = config.property("ktor.kafka.clientId").getString()
         props[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
         props[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.java
     }
