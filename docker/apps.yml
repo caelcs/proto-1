@@ -1,0 +1,49 @@
+version: "3.3"
+
+services:
+  producer1:
+    image: adolfoecs/producer:latest
+    hostname: producer1
+    ports:
+      - "8080:8080"
+    environment:
+      KAFKA_BROKER: "kafka1:9092"
+      PROTO_1_TOPIC: "topicTest3"
+    depends_on:
+      - kafka1
+
+  consumer1:
+    image: adolfoecs/consumer:latest
+    hostname: consumer1
+    ports:
+      - "8090:8090"
+    environment:
+      KAFKA_BROKER: "kafka1:9092"
+      PORT: "8090"
+      PROTO_1_TOPIC: "topicTest3"
+    depends_on:
+      - kafka1
+
+  consumer2:
+    image: adolfoecs/consumer:latest
+    hostname: consumer2
+    ports:
+      - "8091:8091"
+    environment:
+      KAFKA_BROKER: "kafka1:9092"
+      PORT: "8091"
+      PROTO_1_TOPIC: "topicTest3"
+    depends_on:
+      - kafka1
+
+  consumer3:
+    image: adolfoecs/consumer:latest
+    hostname: consumer3
+    ports:
+      - "8092:8092"
+    environment:
+      KAFKA_BROKER: "kafka1:9092"
+      PORT: "8092"
+      PROTO_1_TOPIC: "topicTest3"
+    depends_on:
+      - kafka1
