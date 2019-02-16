@@ -19,7 +19,7 @@ echo "Deleting volumes for zookeeper"
 rm -rf docker/zoo1
 
 echo "stopping all containers if there are running"
-docker-compose -f docker/infrastructure.yml -f docker/apps.yml down
+docker-compose -f docker/infrastructure.yml -f docker/apps.yml -f docker/monitor.yml down
 
 echo "build apps"
 ./gradlew :producer:clean :producer:build
@@ -40,3 +40,8 @@ docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topi
 
 echo "running consumer and producer"
 docker-compose -f docker/infrastructure.yml -f docker/apps.yml up -d
+
+sleep 5
+
+echo "running prometheus y grafana"
+docker-compose -f docker/infrastructure.yml -f docker/apps.yml -f docker/monitor.yml up -d
