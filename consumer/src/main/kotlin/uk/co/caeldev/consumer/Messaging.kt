@@ -1,10 +1,7 @@
 package uk.co.caeldev.consumer
 
 import io.ktor.config.HoconApplicationConfig
-import org.apache.kafka.clients.consumer.ConsumerConfig
-import org.apache.kafka.clients.consumer.KafkaConsumer
 import org.apache.kafka.common.serialization.Serdes
-import org.apache.kafka.common.serialization.StringDeserializer
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.StreamsConfig
@@ -13,7 +10,6 @@ import org.apache.kafka.streams.kstream.KStream
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
 import org.koin.standalone.inject
-import java.time.Duration
 import java.util.*
 
 val messagingModule = module {
