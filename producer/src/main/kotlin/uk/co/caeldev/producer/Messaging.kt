@@ -55,7 +55,7 @@ class MessagingService<T>: KoinComponent {
     private val producer: KafkaProducer<String, String> by inject { parametersOf(config.props) }
 
     fun createMessage(key: String, payload: T): Future<RecordMetadata> {
-        return producer.send(ProducerRecord(configYml.property("ktor.kafka.proto1Topic").getString(), key, objectMapper.writeValueAsString(payload)))
+        return producer.send(ProducerRecord(configYml.property("ktor.kafka.consumerTopic").getString(), key, objectMapper.writeValueAsString(payload)))
     }
 }
 

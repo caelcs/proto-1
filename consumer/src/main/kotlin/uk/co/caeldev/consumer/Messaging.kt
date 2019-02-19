@@ -44,7 +44,7 @@ class StreamsProcessor: KoinComponent {
         val streamsBuilder = StreamsBuilder()
 
         val personJsonStream: KStream<String, String> = streamsBuilder
-                .stream(configYml.property("ktor.kafka.proto1Topic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
+                .stream(configYml.property("ktor.kafka.consumerTopic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
 
         personJsonStream.peek { key, value ->
             CompletableFuture.runAsync(sendRequest, executor)

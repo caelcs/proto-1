@@ -8,7 +8,7 @@ services:
       - "8080:8080"
     environment:
       KAFKA_BROKER: "kafka1:9092"
-      PROTO_1_TOPIC: "${TOPIC}"
+      CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
     depends_on:
       - kafka1
 
@@ -20,7 +20,7 @@ services:
     environment:
       KAFKA_BROKER: "kafka1:9092"
       PORT: "8090"
-      PROTO_1_TOPIC: "${TOPIC}"
+      CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
     depends_on:
       - kafka1
 
@@ -32,7 +32,7 @@ services:
     environment:
       KAFKA_BROKER: "kafka1:9092"
       PORT: "8091"
-      PROTO_1_TOPIC: "${TOPIC}"
+      CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
     depends_on:
       - kafka1
 
@@ -44,6 +44,6 @@ services:
     environment:
       KAFKA_BROKER: "kafka1:9092"
       PORT: "8092"
-      PROTO_1_TOPIC: "${TOPIC}"
+      CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
     depends_on:
       - kafka1

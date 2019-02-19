@@ -4,7 +4,7 @@ FROM openjdk:8-jre-alpine
 # We define the user we will use in this instance to prevent using root that even in a container, can be a security risk.
 ENV APPLICATION_USER caeldev
 ENV KAFKA_BROKER localhost:9092
-ENV PROTO_1_TOPIC test-topic
+ENV CONSUMER_TOPIC test-topic
 
 # Then we add the user, create the /app folder and give permissions to our user.
 RUN adduser -D -g '' $APPLICATION_USER

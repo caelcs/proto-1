@@ -13,7 +13,7 @@ fi
 
 eval "$(docker-machine env proto-1)"
 export DOCKER_MACHINE_IP=`docker-machine ip proto-1`
-export TOPIC="topic-test-1"
+export CONSUMER_TOPIC="CONSUMER_TOPIC"
 
 echo "Deleting volumes for zookeeper"
 rm -rf docker/zoo1
@@ -35,8 +35,8 @@ docker-compose -f docker/infrastructure.yml up -d
 sleep 5
 
 echo "creating topic"
-docker exec docker_kafka1_1 kafka-topics --create --zookeeper zoo1:2181 --replication-factor 1 --partitions 3 --topic $TOPIC
-docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic $TOPIC
+docker exec docker_kafka1_1 kafka-topics --create --zookeeper zoo1:2181 --replication-factor 1 --partitions 3 --topic $CONSUMER_TOPIC
+docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic $CONSUMER_TOPIC
 
 echo "running consumer and producer"
 docker-compose -f docker/infrastructure.yml -f docker/apps.yml up -d
