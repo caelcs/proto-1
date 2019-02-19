@@ -59,17 +59,4 @@ class MessagingService<T>: KoinComponent {
     }
 }
 
-
-fun Routing.messaging() {
-
-    val messagingService: MessagingService<Person> by inject("messagingServicePerson")
-
-    post("/messages") {
-        val payload = call.receive<Person>()
-        val key = "${payload.name}:${payload.lastName}"
-        messagingService.createMessage(key, payload)
-        call.respond(HttpStatusCode.OK, "Person created")
-    }
-}
-
 data class Person(val name: String, val lastName: String)

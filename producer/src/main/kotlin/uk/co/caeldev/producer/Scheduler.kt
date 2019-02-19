@@ -5,6 +5,7 @@ import io.ktor.http.HttpStatusCode.Companion.OK
 import io.ktor.request.receive
 import io.ktor.response.respond
 import io.ktor.routing.Routing
+import io.ktor.routing.get
 import io.ktor.routing.post
 import org.koin.dsl.module.module
 import org.koin.standalone.KoinComponent
@@ -49,7 +50,7 @@ fun Routing.scheduler() {
 
     val scheduler = SchedulerManager()
 
-    post("/jobs") {
+    post("/start") {
         val payload = call.receive<JobRequest>()
         val job = newJob(PersonJob::class.java)
                 .withIdentity("PersonJob-${payload.name}-${integer().next()}", "Persona")

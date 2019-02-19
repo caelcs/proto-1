@@ -24,6 +24,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import java.util.function.Supplier
 
 val messagingModule = module {
 
@@ -53,6 +54,8 @@ class StreamsProcessor: KoinComponent {
     private val configYml: HoconApplicationConfig by inject()
     private val metricRegistry: MetricRegistry by inject()
     private val executor: Executor = Executors.newFixedThreadPool(200)
+    private val ackProducer: AckProducer by inject()
+    private val objectMapper: ObjectMapper by inject()
 
     fun process() {
         val streamsBuilder = StreamsBuilder()
@@ -61,7 +64,8 @@ class StreamsProcessor: KoinComponent {
                 .stream(configYml.property("ktor.kafka.consumerTopic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
 
         personJsonStream.peek { key, value ->
-            CompletableFuture.runAsync(sendRequest, executor)
+            val person = objectMapper.convertValue(value, Person::class.java)
+            CompletableFuture.supplyAsync(Supplier {sendRequest(person)}, executor)
         }
 
         val topology = streamsBuilder.build()
@@ -70,8 +74,9 @@ class StreamsProcessor: KoinComponent {
         streams.start()
     }
 
-    private val sendRequest = Runnable {
+    private fun sendRequest(person: Person) {
         Thread.sleep(longVal(Range.closed(500L, 10000L)).next())
+        ackProducer.produce(UUID.randomUUID(), person)
         metricRegistry.countMessage()
     }
 }
