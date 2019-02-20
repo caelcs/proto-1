@@ -36,6 +36,10 @@ val messagingModule = module {
 
     single { AckProducer() }
 
+    single {(props: Properties) ->
+        KafkaProducer<String, String>(props)
+    }
+
 }
 
 class KafkaConfig: KoinComponent {
@@ -64,7 +68,7 @@ class StreamsProcessor: KoinComponent {
                 .stream(configYml.property("ktor.kafka.consumerTopic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
 
         personJsonStream.peek { key, value ->
-            val person = objectMapper.convertValue(value, Person::class.java)
+            val person = objectMapper.readValue(value, Person::class.java)
             CompletableFuture.supplyAsync(Supplier {sendRequest(person)}, executor)
         }
 

@@ -107,7 +107,7 @@ class ConsumerMessageProducer(private val numberOfMessages: Int): KoinComponent 
     fun process() {
         IntStream.range(1, numberOfMessages).parallel().forEach {
             val person = Person(string().next(), string().next())
-            messagingService.createMessage(1.toString(), person)
+            messagingService.createMessage(UUID.randomUUID().toString(), person)
         }
         metricRegistry.countBatch()
     }
@@ -126,7 +126,7 @@ class AckConsumerService: KoinComponent {
         val personJsonStream: KStream<String, String> = streamsBuilder
                 .stream(configYml.property("ktor.kafka.ackConsumer.ackConsumerTopic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
 
-        personJsonStream.peek { key, value ->
+        personJsonStream.peek { _, _ ->
             val counterUpdated = counter.addAndGet(1)
             if (counterUpdated == Batch.batchSize.get()) {
                 counter.getAndSet(0)
