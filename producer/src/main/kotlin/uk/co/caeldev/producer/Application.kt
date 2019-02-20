@@ -7,7 +7,6 @@ import com.fasterxml.jackson.databind.util.StdDateFormat
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import com.typesafe.config.ConfigFactory
 import io.ktor.application.Application
-import io.ktor.application.EventDefinition
 import io.ktor.application.call
 import io.ktor.application.install
 import io.ktor.config.HoconApplicationConfig
@@ -21,7 +20,6 @@ import io.ktor.routing.routing
 import org.koin.dsl.module.module
 import org.koin.log.Logger.SLF4JLogger
 import org.koin.standalone.StandAloneContext.startKoin
-import org.quartz.Scheduler
 import org.slf4j.event.Level
 
 fun Application.main() {
@@ -32,7 +30,7 @@ fun Application.main() {
         register(ContentType.Application.Json, JacksonConverter())
     }
 
-    startKoin(listOf(commonModule, adminModule, schedulerModule, messagingModule), logger = SLF4JLogger())
+    startKoin(listOf(commonModule, adminModule, messagingModule), logger = SLF4JLogger())
 
     install(StatusPages) {
         exception<NotImplementedError> { call.respond(HttpStatusCode.NotImplemented) }
@@ -46,11 +44,11 @@ fun Application.main() {
         filter { call -> call.request.path().startsWith("/") }
     }
 
-    SchedulerManager().start()
+    AckConsumerService().start()
 
     routing {
         admin()
-        scheduler()
+        messaging()
     }
 }
 

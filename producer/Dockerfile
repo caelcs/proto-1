@@ -5,6 +5,8 @@ FROM openjdk:8-jre-alpine
 ENV APPLICATION_USER caeldev
 ENV KAFKA_BROKER localhost:9092
 ENV CONSUMER_TOPIC test-topic
+ENV ACK_CONSUMER_CLIENT_ID consumer1
+ENV ACK_CONSUMER_TOPIC ack-consumer-topic
 
 # Then we add the user, create the /app folder and give permissions to our user.
 RUN adduser -D -g '' $APPLICATION_USER

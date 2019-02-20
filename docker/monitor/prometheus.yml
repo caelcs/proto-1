@@ -27,7 +27,7 @@ scrape_configs:
     # scheme defaults to 'http'.
 
     static_configs:
-      - targets: ['consumer1:8090', 'consumer2:8091', 'consumer3:8092']
+      - targets: ['consumer1:8090', 'consumer2:8091', 'consumer3:8092', 'producer1:8080']
   - job_name: "node"
     scrape_interval: "15s"
     static_configs:

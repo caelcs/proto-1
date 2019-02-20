@@ -9,6 +9,8 @@ services:
     environment:
       KAFKA_BROKER: "kafka1:9092"
       CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
+      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}"
+      ACK_CONSUMER_TOPIC: "${ACK_CONSUMER_TOPIC}"
     depends_on:
       - kafka1
 
@@ -21,6 +23,8 @@ services:
       KAFKA_BROKER: "kafka1:9092"
       PORT: "8090"
       CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
+      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}"
+      ACK_CONSUMER_TOPIC: "${ACK_CONSUMER_TOPIC}"
     depends_on:
       - kafka1
 
@@ -33,6 +37,8 @@ services:
       KAFKA_BROKER: "kafka1:9092"
       PORT: "8091"
       CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
+      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}"
+      ACK_CONSUMER_TOPIC: "${ACK_CONSUMER_TOPIC}"
     depends_on:
       - kafka1
 
@@ -45,5 +51,7 @@ services:
       KAFKA_BROKER: "kafka1:9092"
       PORT: "8092"
       CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
+      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}"
+      ACK_CONSUMER_TOPIC: "${ACK_CONSUMER_TOPIC}"
     depends_on:
       - kafka1

@@ -4,6 +4,9 @@ import io.ktor.application.call
 import io.ktor.response.respondText
 import io.ktor.routing.Routing
 import io.ktor.routing.get
+import io.micrometer.core.instrument.Counter
+import io.micrometer.core.instrument.MeterRegistry
+import io.micrometer.core.instrument.Metrics
 import io.micrometer.core.instrument.binder.MeterBinder
 import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
@@ -17,7 +20,16 @@ import org.koin.ktor.ext.inject
 val adminModule = module {
     single {
         MetricRegistry(listOf(ClassLoaderMetrics(),
-                JvmMemoryMetrics(), JvmThreadMetrics(), ProcessorMetrics()))
+                JvmMemoryMetrics(), JvmThreadMetrics(), ProcessorMetrics(), CustomMeter()))
+    }
+}
+
+class CustomMeter: MeterBinder {
+    override fun bindTo(registry: MeterRegistry) {
+        Counter.builder("batch_total")
+                .baseUnit("batches")
+                .description("Number of batches executed")
+                .register(registry)
     }
 }
 
@@ -45,4 +57,8 @@ class MetricRegistry(metrics: List<MeterBinder>) {
     }
 
     fun getMetrics(): String = registry.scrape()
+
+    fun countBatch() {
+        Metrics.counter("batch_total").increment()
+    }
 }
