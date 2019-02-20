@@ -26,7 +26,7 @@ val adminModule = module {
 
 class CustomMeter: MeterBinder {
     override fun bindTo(registry: MeterRegistry) {
-        Counter.builder("batch_total")
+        Counter.builder("batch")
                 .baseUnit("batches")
                 .description("Number of batches executed")
                 .register(registry)
@@ -59,6 +59,6 @@ class MetricRegistry(metrics: List<MeterBinder>) {
     fun getMetrics(): String = registry.scrape()
 
     fun countBatch() {
-        Metrics.counter("batch_total").increment()
+        Metrics.counter("batch").increment()
     }
 }

@@ -111,10 +111,13 @@ class MessagingService<T>: KoinComponent {
 
 class AckProducer: KoinComponent {
 
+    private val metricRegistry: MetricRegistry by inject()
+
     private val messagingService: MessagingService<Person> by inject()
 
     fun produce(id: UUID, person: Person) {
         messagingService.createMessage(id.toString(), person)
+        metricRegistry.countAckMessage()
     }
 
 }

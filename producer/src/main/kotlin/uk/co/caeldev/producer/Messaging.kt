@@ -25,8 +25,6 @@ import org.koin.standalone.inject
 import uk.org.fyodor.generators.RDG.string
 import java.util.*
 import java.util.concurrent.CompletableFuture.supplyAsync
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import java.util.concurrent.Future
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Supplier
@@ -46,6 +44,7 @@ val messagingModule = module {
     }
 
     single { KafkaConfigAck() }
+
 }
 
 class KafkaConfig: KoinComponent {
@@ -105,7 +104,7 @@ class ConsumerMessageProducer(private val numberOfMessages: Int): KoinComponent 
     private val metricRegistry: MetricRegistry by inject()
 
     fun process() {
-        IntStream.range(1, numberOfMessages).parallel().forEach {
+        IntStream.range(0, numberOfMessages).parallel().forEach {
             val person = Person(string().next(), string().next())
             messagingService.createMessage(UUID.randomUUID().toString(), person)
         }
@@ -113,6 +112,7 @@ class ConsumerMessageProducer(private val numberOfMessages: Int): KoinComponent 
     }
 
 }
+
 class AckConsumerService: KoinComponent {
 
     private val config: KafkaConfigAck by inject()
@@ -129,7 +129,7 @@ class AckConsumerService: KoinComponent {
         personJsonStream.peek { _, _ ->
             val counterUpdated = counter.addAndGet(1)
             if (counterUpdated == Batch.batchSize.get()) {
-                counter.getAndSet(0)
+                counter.set(0)
                 supplyAsync(Supplier {ConsumerMessageProducer(Batch.batchSize.get()).process()})
             }
         }

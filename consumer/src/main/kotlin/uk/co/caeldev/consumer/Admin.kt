@@ -28,6 +28,11 @@ class CustomMeter: MeterBinder {
                 .baseUnit("messages")
                 .description("Number of messages consumed from kafka")
                 .register(registry)
+
+        Counter.builder("ack_consumer_number_messages")
+                .baseUnit("messages")
+                .description("ACK Number of messages consumed from kafka")
+                .register(registry)
     }
 }
 
@@ -60,5 +65,9 @@ class MetricRegistry(metrics: List<MeterBinder>) {
 
     fun countMessage() {
         Metrics.counter("consumer_number_messages").increment()
+    }
+
+    fun countAckMessage() {
+        Metrics.counter("ack_consumer_number_messages").increment()
     }
 }
