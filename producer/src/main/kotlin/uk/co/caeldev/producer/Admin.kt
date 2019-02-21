@@ -54,6 +54,8 @@ class MetricRegistry(metrics: List<MeterBinder>) {
         metrics.forEach{
             it.bindTo(registry)
         }
+
+        Metrics.addRegistry(registry)
     }
 
     fun getMetrics(): String = registry.scrape()
