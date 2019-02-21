@@ -1,10 +1,10 @@
 # proto-1
 
-Prototype to test inter connectivity and high availability between two apps using kafka.
+Prototype to test high availability between two apps using kafka.
 Also to see how to scale up when there is high concurrency of requests.
 
 To accomplish this there are two application, producer and consumer, producer will create
-messages and send it to kafka and on the other end the consumer app will start dequeuing
+messages by batches and send it to kafka and on the other end the consumer app will start dequeuing
 messages. The project nft will execute stress tests and have scenarios to scale up the consumers
 and see what is the effect on the metrics.
 
@@ -36,3 +36,11 @@ Producer:
 
 Consumer:
 - **consumer_number_messages_total**: Total number of messages that has been consumed.
+
+## How to start playing around
+To start the process of messages you need to execute a endpoint in the producer app and declaring how many messages will the batch contains.
+
+POST http://192.168.1.100:8080/messages/1000
+
+After that it will start the first batch of 1000 messages and after that finished it will generate another one.
+so it is endless process of executing batches.
