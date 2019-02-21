@@ -13,7 +13,7 @@ Both apps are going to expose basic metrics to monitor the resources.
 
 ## How to use it
 
-install all platform by executing
+###install all platform by executing
 
 ```./install.sh```
 
@@ -37,6 +37,11 @@ Producer:
 Consumer:
 - **consumer_number_messages_total**: Total number of messages that has been consumed.
 
+###Kill all the pods
+execute 
+
+```./killAll.sh```
+ 
 ## How to start playing around
 To start the process of messages you need to execute a endpoint in the producer app and declaring how many messages will the batch contains.
 
