@@ -45,7 +45,17 @@ execute
 ## How to start playing around
 To start the process of messages you need to execute a endpoint in the producer app and declaring how many messages will the batch contains.
 
-POST http://192.168.1.100:8080/messages/1000
-
+POST http://192.168.1.100:8080/batches 
+Request Payload 
+```
+{
+    "numberOfMessages": "1000" 
+}
+```
 After that it will start the first batch of 1000 messages and after that finished it will generate another one.
 so it is endless process of executing batches.
+
+To stop the process og generating new batches, but does not stop the current running. 
+
+DELETE http://192.168.1.100:8080/batches
+

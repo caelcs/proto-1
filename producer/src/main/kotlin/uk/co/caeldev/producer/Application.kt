@@ -30,7 +30,7 @@ fun Application.main() {
         register(ContentType.Application.Json, JacksonConverter())
     }
 
-    startKoin(listOf(commonModule, adminModule, messagingModule), logger = SLF4JLogger())
+    startKoin(listOf(commonModule, adminModule, messagingModule, batchesModule), logger = SLF4JLogger())
 
     install(StatusPages) {
         exception<NotImplementedError> { call.respond(HttpStatusCode.NotImplemented) }
@@ -48,7 +48,7 @@ fun Application.main() {
 
     routing {
         admin()
-        messaging()
+        batches()
     }
 }
 
