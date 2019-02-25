@@ -5,13 +5,13 @@
         </encoder>
     </appender>
 
-    <root level="INFO">
+    <root level="WARN">
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="org.eclipse.jetty" level="INFO"/>
-    <logger name="uk.co.caeldev" level="INFO"/>
-    <logger name="io.netty" level="INFO"/>
-    <logger name="org.apache.kafka.streams" level="INFO"/>
+    <logger name="org.eclipse.jetty" level="WARN"/>
+    <logger name="uk.co.caeldev" level="WARN"/>
+    <logger name="io.netty" level="WARN"/>
+    <logger name="org.apache.kafka.streams" level="WARN"/>
 
 </configuration>
