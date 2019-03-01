@@ -1,0 +1,40 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: kafka-broker1
+spec:
+  template:
+    metadata:
+      labels:
+        app: kafka
+        id: "1"
+    spec:
+      containers:
+        - name: kafka
+          image: wurstmeister/kafka
+          ports:
+            - containerPort: 9092
+          env:
+            - name: DOCKER_MACHINE_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: KAFKA_ADVERTISED_LISTENERS
+              value: INSIDE://:9092,OUTSIDE://$(DOCKER_MACHINE_IP):9094
+            - name: KAFKA_LISTENERS
+              value: INSIDE://:9092,OUTSIDE://:9094
+            - name: KAFKA_LISTENER_SECURITY_PROTOCOL_MAP
+              value: "INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT"
+            - name: KAFKA_INTER_BROKER_LISTENER_NAME
+              value: "INSIDE"
+            - name: KAFKA_ZOOKEEPER_CONNECT
+              value: "zoo1:2181"
+            - name: KAFKA_BROKER_ID
+              value: "1"
+            - name: KAFKA_LOG4J_LOGGERS
+              value: "kafka.controller=INFO,kafka.producer.async.DefaultEventHandler=INFO,state.change.logger=INFO"
+            - name: KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR
+              value: "1"
+            - name: KAFKA_DELETE_TOPIC_ENABLE
+              value: "true"
