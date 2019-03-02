@@ -23,4 +23,4 @@ spec:
       volumes:
         - name: config-volume
           configMap:
-            name: prometheus-configmap
+            name: prom-config-map

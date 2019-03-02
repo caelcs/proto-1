@@ -31,7 +31,7 @@ create_node_exporter_service(){
 }
 
 create_prom_config_map(){
-	kubectl create -n proto1 -f ./k8s/prom-configmap.yml
+	kubectl create configmap prom-config-map --from-file=docker/monitor/prom -n proto1
 }
 
 create_prom_pod(){
