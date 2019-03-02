@@ -1,0 +1,26 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: producer-deployment
+spec:
+  template:
+    metadata:
+      labels:
+        app: producer-dp
+    spec:
+      containers:
+        - name: producer1
+          image: adolfoecs/producer:latest
+          imagePullPolicy: Never
+          ports:
+            - containerPort: 8080
+          env:
+            - name: KAFKA_BROKER
+              value: "kafka-service:9092"
+            - name: CONSUMER_TOPIC
+              value: $(CONSUMER_TOPIC)
+            - name: ACK_CONSUMER_CLIENT_ID
+              value: $(ACK_CONSUMER_CLIENT_ID)
+            - name: ACK_CONSUMER_TOPIC
+              value: $(ACK_CONSUMER_TOPIC)
