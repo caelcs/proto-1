@@ -6,51 +6,35 @@ create_context(){
     kubectl create --filename ./k8s/namespace.yml
 }
 
-create_zoo_pod(){
+install_zoo(){
+    echo "installing zookeeper"
 	kubectl create -n proto1 --filename ./k8s/zookeeper-deployment.yml
-}
-
-create_zoo_service(){
 	kubectl create -n proto1 --filename ./k8s/zookeeper-service.yml
 }
 
-create_kafka_pod(){
+install_kafka(){
+    echo "installing kafka"
 	kubectl create -n proto1 -f ./k8s/kafka-deployment.yml
-}
-
-create_kafka_service(){
 	kubectl create -n proto1 -f ./k8s/kafka-service.yml
 }
 
-create_node_exporter_pod(){
+install_node_exporter(){
+    echo "installing node exporter"
 	kubectl create -n proto1 -f ./k8s/node-exporter-deployment.yml
-}
-
-create_node_exporter_service(){
 	kubectl create -n proto1 -f ./k8s/node-exporter-service.yml
 }
 
-create_prom_config_map(){
+install_prom(){
+    echo "installing prometheus"
 	kubectl create configmap prom-config-map --from-file=provisioning/monitor/prom -n proto1
-}
-
-create_prom_pod(){
 	kubectl create -n proto1 -f ./k8s/prom-deployment.yml
-}
-
-create_prom_service(){
 	kubectl create -n proto1 -f ./k8s/prom-service.yml
 }
 
-create_grafana_config_map(){
+install_grafana(){
+    echo "installing grafana"
 	kubectl create configmap grafana-config-map --from-file=provisioning/monitor/grafana -n proto1
-}
-
-create_grafana_pod(){
 	kubectl create -n proto1 -f ./k8s/grafana-deployment.yml
-}
-
-create_grafana_service(){
 	kubectl create -n proto1 -f ./k8s/grafana-service.yml
 }
 
@@ -63,18 +47,11 @@ deleteAll(){
 
 installAll(){
     create_context
-    create_zoo_pod
-    create_zoo_service
-    create_kafka_pod
-    create_kafka_service
-    create_node_exporter_pod
-    create_node_exporter_service
-    create_prom_config_map
-    create_prom_pod
-    create_prom_service
-    create_grafana_config_map
-    create_grafana_pod
-    create_grafana_service
+    install_zoo
+    install_kafka
+    install_node_exporter
+    install_prom
+    install_grafana
 }
 
 $@
