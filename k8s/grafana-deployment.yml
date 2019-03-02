@@ -1,0 +1,36 @@
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  labels:
+    app: grafana-dp
+spec:
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - image: grafana/grafana:latest
+          name: grafana
+          env:
+            - name: GF_AUTH_BASIC_ENABLED
+              value: "true"
+            - name: GF_AUTH_ANONYMOUS_ENABLED
+              value: "true"
+          readinessProbe:
+            httpGet:
+              path: /login
+              port: 3000
+          volumeMounts:
+            - name: grafana-config
+              mountPath: /etc/grafana/provisioning/datasources/
+              subPath: datasources/
+            - name: grafana-config
+              mountPath: /etc/grafana/provisioning/dashboards/
+              subPath: dashboards/
+      volumes:
+        - name: grafana-config
+          configMap:
+            name: grafana-config-map

@@ -42,6 +42,18 @@ create_prom_service(){
 	kubectl create -n proto1 -f ./k8s/prom-service.yml
 }
 
+create_grafana_config_map(){
+	kubectl create configmap grafana-config-map --from-file=docker/monitor/grafana -n proto1
+}
+
+create_grafana_pod(){
+	kubectl create -n proto1 -f ./k8s/grafana-deployment.yml
+}
+
+create_grafana_service(){
+	kubectl create -n proto1 -f ./k8s/grafana-service.yml
+}
+
 deleteAll(){
     kubectl delete services --all -n proto1
     kubectl delete deployments --all -n proto1
@@ -60,6 +72,9 @@ installAll(){
     create_prom_config_map
     create_prom_pod
     create_prom_service
+    create_grafana_config_map
+    create_grafana_pod
+    create_grafana_service
 }
 
 $@
