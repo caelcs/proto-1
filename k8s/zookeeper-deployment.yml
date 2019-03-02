@@ -2,7 +2,7 @@
 kind: Deployment
 apiVersion: extensions/v1beta1
 metadata:
-  name: zookeeper-deployment-1
+  name: zookeeper-deployment
 spec:
   template:
     metadata:

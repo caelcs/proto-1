@@ -3,13 +3,11 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: grafana-deployment
-  labels:
-    app: grafana-dp
 spec:
   template:
     metadata:
       labels:
-        app: grafana
+        app: grafana-dp
     spec:
       containers:
         - image: grafana/grafana:latest

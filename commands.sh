@@ -31,7 +31,7 @@ create_node_exporter_service(){
 }
 
 create_prom_config_map(){
-	kubectl create configmap prom-config-map --from-file=docker/monitor/prom -n proto1
+	kubectl create configmap prom-config-map --from-file=provisioning/monitor/prom -n proto1
 }
 
 create_prom_pod(){
@@ -43,7 +43,7 @@ create_prom_service(){
 }
 
 create_grafana_config_map(){
-	kubectl create configmap grafana-config-map --from-file=docker/monitor/grafana -n proto1
+	kubectl create configmap grafana-config-map --from-file=provisioning/monitor/grafana -n proto1
 }
 
 create_grafana_pod(){
