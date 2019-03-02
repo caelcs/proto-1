@@ -4,12 +4,12 @@ kind: Service
 metadata:
   name: kafka-service
   labels:
-    name: kafka
+    name: kafka-svc
 spec:
   ports:
     - port: 9092
       name: kafka-port
       protocol: TCP
   selector:
-    app: kafka
+    app: kafka-dp
     id: "1"
