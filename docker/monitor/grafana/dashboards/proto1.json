@@ -1,369 +1,540 @@
 {
   "annotations": {
     "list": [
-    {
-      "builtIn": 1,
-      "datasource": "-- Grafana --",
-      "enable": true,
-      "hide": true,
-      "iconColor": "rgba(0, 211, 255, 1)",
-      "name": "Annotations & Alerts",
-      "type": "dashboard"
-    }
+      {
+        "builtIn": 1,
+        "datasource": "-- Grafana --",
+        "enable": true,
+        "hide": true,
+        "iconColor": "rgba(0, 211, 255, 1)",
+        "name": "Annotations & Alerts",
+        "type": "dashboard"
+      }
     ]
   },
   "editable": true,
   "gnetId": null,
   "graphTooltip": 0,
-  "id": 1,
   "links": [],
   "panels": [
-  {
-    "aliasColors": {},
-    "bars": false,
-    "dashLength": 10,
-    "dashes": false,
-    "datasource": "Prometheus",
-    "fill": 1,
-    "gridPos": {
-      "h": 9,
-      "w": 12,
-      "x": 0,
-      "y": 0
-    },
-    "id": 8,
-    "legend": {
-      "avg": false,
-      "current": false,
-      "max": false,
-      "min": false,
-      "show": true,
-      "total": false,
-      "values": false
-    },
-    "lines": true,
-    "linewidth": 1,
-    "links": [],
-    "nullPointMode": "null",
-    "percentage": false,
-    "pointradius": 5,
-    "points": false,
-    "renderer": "flot",
-    "seriesOverrides": [],
-    "spaceLength": 10,
-    "stack": false,
-    "steppedLine": false,
-    "targets": [
     {
-      "expr": "ack_consumer_number_messages_total",
-      "format": "time_series",
-      "intervalFactor": 1,
-      "refId": "A"
-    }
-    ],
-    "thresholds": [],
-    "timeFrom": null,
-    "timeRegions": [],
-    "timeShift": null,
-    "title": "Total ACK messages consumed by Producer",
-    "tooltip": {
-      "shared": true,
-      "sort": 0,
-      "value_type": "individual"
-    },
-    "type": "graph",
-    "xaxis": {
-      "buckets": null,
-      "mode": "time",
-      "name": null,
-      "show": true,
-      "values": []
-    },
-    "yaxes": [
-    {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
-    },
-    {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
-    }
-    ],
-    "yaxis": {
-      "align": false,
-      "alignLevel": null
-    }
-  },
-  {
-    "aliasColors": {},
-    "bars": false,
-    "dashLength": 10,
-    "dashes": false,
-    "datasource": "Prometheus",
-    "fill": 1,
-    "gridPos": {
-      "h": 9,
-      "w": 12,
-      "x": 12,
-      "y": 0
-    },
-    "id": 2,
-    "legend": {
-      "avg": false,
-      "current": false,
-      "max": false,
-      "min": false,
-      "show": true,
-      "total": false,
-      "values": false
-    },
-    "lines": true,
-    "linewidth": 1,
-    "links": [],
-    "nullPointMode": "null",
-    "percentage": false,
-    "pointradius": 5,
-    "points": false,
-    "renderer": "flot",
-    "seriesOverrides": [],
-    "spaceLength": 10,
-    "stack": false,
-    "steppedLine": false,
-    "targets": [
-    {
-      "expr": "consumer_number_messages_total",
-      "format": "time_series",
-      "intervalFactor": 1,
-      "refId": "A"
-    }
-    ],
-    "thresholds": [],
-    "timeFrom": null,
-    "timeRegions": [],
-    "timeShift": null,
-    "title": "Total Messages dequeue by Consumers",
-    "tooltip": {
-      "shared": true,
-      "sort": 0,
-      "value_type": "individual"
-    },
-    "type": "graph",
-    "xaxis": {
-      "buckets": null,
-      "mode": "time",
-      "name": null,
-      "show": true,
-      "values": []
-    },
-    "yaxes": [
-    {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 0
+      },
+      "id": 8,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "ack_consumer_number_messages_total",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Total ACK messages consumed by Producer",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
-    }
-    ],
-    "yaxis": {
-      "align": false,
-      "alignLevel": null
-    }
-  },
-  {
-    "aliasColors": {},
-    "bars": false,
-    "dashLength": 10,
-    "dashes": false,
-    "datasource": "Prometheus",
-    "fill": 1,
-    "gridPos": {
-      "h": 9,
-      "w": 12,
-      "x": 0,
-      "y": 9
-    },
-    "id": 4,
-    "legend": {
-      "avg": false,
-      "current": false,
-      "max": false,
-      "min": false,
-      "show": true,
-      "total": false,
-      "values": false
-    },
-    "lines": true,
-    "linewidth": 1,
-    "links": [],
-    "nullPointMode": "null",
-    "percentage": false,
-    "pointradius": 5,
-    "points": false,
-    "renderer": "flot",
-    "seriesOverrides": [],
-    "spaceLength": 10,
-    "stack": false,
-    "steppedLine": false,
-    "targets": [
-    {
-      "expr": "batch_batches_total",
-      "format": "time_series",
-      "intervalFactor": 1,
-      "refId": "A"
-    }
-    ],
-    "thresholds": [],
-    "timeFrom": null,
-    "timeRegions": [],
-    "timeShift": null,
-    "title": "Number of batches generated by Producer",
-    "tooltip": {
-      "shared": true,
-      "sort": 0,
-      "value_type": "individual"
-    },
-    "type": "graph",
-    "xaxis": {
-      "buckets": null,
-      "mode": "time",
-      "name": null,
-      "show": true,
-      "values": []
-    },
-    "yaxes": [
-    {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
-    },
-    {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
-    }
-    ],
-    "yaxis": {
-      "align": false,
-      "alignLevel": null
-    }
-  },
-  {
-    "aliasColors": {},
-    "bars": false,
-    "dashLength": 10,
-    "dashes": false,
-    "datasource": "Prometheus",
-    "fill": 1,
-    "gridPos": {
-      "h": 9,
-      "w": 12,
-      "x": 12,
-      "y": 9
-    },
-    "id": 6,
-    "legend": {
-      "avg": false,
-      "current": false,
-      "max": false,
-      "min": false,
-      "show": true,
-      "total": false,
-      "values": false
-    },
-    "lines": true,
-    "linewidth": 1,
-    "links": [],
-    "nullPointMode": "null",
-    "percentage": false,
-    "pointradius": 5,
-    "points": false,
-    "renderer": "flot",
-    "seriesOverrides": [],
-    "spaceLength": 10,
-    "stack": false,
-    "steppedLine": false,
-    "targets": [
-    {
-      "expr": "process_cpu_usage",
-      "format": "time_series",
-      "intervalFactor": 1,
-      "refId": "A"
-    }
-    ],
-    "thresholds": [],
-    "timeFrom": null,
-    "timeRegions": [],
-    "timeShift": null,
-    "title": "Process CPU Used",
-    "tooltip": {
-      "shared": true,
-      "sort": 0,
-      "value_type": "individual"
-    },
-    "type": "graph",
-    "xaxis": {
-      "buckets": null,
-      "mode": "time",
-      "name": null,
-      "show": true,
-      "values": []
-    },
-    "yaxes": [
-    {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 0
+      },
+      "id": 2,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "consumer_number_messages_total",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Total Messages dequeue by Consumers",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     },
     {
-      "format": "short",
-      "label": null,
-      "logBase": 1,
-      "max": null,
-      "min": null,
-      "show": true
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 0,
+        "y": 9
+      },
+      "id": 4,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "batch_batches_total",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Number of batches generated by Producer",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 9,
+        "w": 12,
+        "x": 12,
+        "y": 9
+      },
+      "id": 6,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 5,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "spaceLength": 10,
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(process_cpu_usage) by (instance, Id)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Process CPU Used",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "percentunit",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 0,
+        "y": 18
+      },
+      "id": 12,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "avg(jvm_memory_used_bytes) by (instance, id)",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Memory Used",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "decbytes",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
+    },
+    {
+      "aliasColors": {},
+      "bars": false,
+      "dashLength": 10,
+      "dashes": false,
+      "datasource": "Prometheus",
+      "fill": 1,
+      "gridPos": {
+        "h": 8,
+        "w": 12,
+        "x": 12,
+        "y": 18
+      },
+      "id": 10,
+      "legend": {
+        "avg": false,
+        "current": false,
+        "max": false,
+        "min": false,
+        "show": true,
+        "total": false,
+        "values": false
+      },
+      "lines": true,
+      "linewidth": 1,
+      "links": [],
+      "nullPointMode": "null",
+      "paceLength": 10,
+      "percentage": false,
+      "pointradius": 2,
+      "points": false,
+      "renderer": "flot",
+      "seriesOverrides": [],
+      "stack": false,
+      "steppedLine": false,
+      "targets": [
+        {
+          "expr": "jvm_threads_states_threads",
+          "format": "time_series",
+          "intervalFactor": 1,
+          "refId": "A"
+        }
+      ],
+      "thresholds": [],
+      "timeFrom": null,
+      "timeRegions": [],
+      "timeShift": null,
+      "title": "Threads",
+      "tooltip": {
+        "shared": true,
+        "sort": 0,
+        "value_type": "individual"
+      },
+      "type": "graph",
+      "xaxis": {
+        "buckets": null,
+        "mode": "time",
+        "name": null,
+        "show": true,
+        "values": []
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        },
+        {
+          "format": "short",
+          "label": null,
+          "logBase": 1,
+          "max": null,
+          "min": null,
+          "show": true
+        }
+      ],
+      "yaxis": {
+        "align": false,
+        "alignLevel": null
+      }
     }
-    ],
-    "yaxis": {
-      "align": false,
-      "alignLevel": null
-    }
-  }
   ],
-  "schemaVersion": 16,
+  "refresh": false,
+  "schemaVersion": 18,
   "style": "dark",
   "tags": [],
   "templating": {
     "list": []
   },
   "time": {
-    "from": "now-6h",
-    "to": "now"
+    "from": "2019-04-02T10:54:03.385Z",
+    "to": "2019-04-02T11:02:17.993Z"
   },
   "timepicker": {
     "refresh_intervals": [

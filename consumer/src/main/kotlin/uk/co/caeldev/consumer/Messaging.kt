@@ -2,6 +2,9 @@ package uk.co.caeldev.consumer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.config.HoconApplicationConfig
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.delay
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -20,11 +23,7 @@ import org.koin.standalone.inject
 import uk.org.fyodor.generators.RDG.longVal
 import uk.org.fyodor.range.Range
 import java.util.*
-import java.util.concurrent.CompletableFuture
-import java.util.concurrent.Executor
-import java.util.concurrent.Executors
 import java.util.concurrent.Future
-import java.util.function.Supplier
 
 val messagingModule = module {
 
@@ -57,7 +56,6 @@ class StreamsProcessor: KoinComponent {
     private val config: KafkaConfig by inject()
     private val configYml: HoconApplicationConfig by inject()
     private val metricRegistry: MetricRegistry by inject()
-    private val executor: Executor = Executors.newFixedThreadPool(200)
     private val ackProducer: AckProducer by inject()
     private val objectMapper: ObjectMapper by inject()
 
@@ -69,7 +67,7 @@ class StreamsProcessor: KoinComponent {
 
         personJsonStream.peek { key, value ->
             val person = objectMapper.readValue(value, Person::class.java)
-            CompletableFuture.supplyAsync(Supplier {sendRequest(person)}, executor)
+            sendRequest(person)
         }
 
         val topology = streamsBuilder.build()
@@ -79,9 +77,11 @@ class StreamsProcessor: KoinComponent {
     }
 
     private fun sendRequest(person: Person) {
-        Thread.sleep(longVal(Range.closed(500L, 10000L)).next())
-        ackProducer.produce(UUID.randomUUID(), person)
-        metricRegistry.countMessage()
+        GlobalScope.async {
+            delay(longVal(Range.closed(500L, 10000L)).next())
+            ackProducer.produce(UUID.randomUUID(), person)
+            metricRegistry.countMessage()
+        }
     }
 }
 

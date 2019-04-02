@@ -8,6 +8,8 @@ import io.ktor.response.respond
 import io.ktor.routing.Routing
 import io.ktor.routing.delete
 import io.ktor.routing.post
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.StreamsBuilder
@@ -22,6 +24,7 @@ import java.util.concurrent.CompletableFuture
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.function.Supplier
+import javax.xml.bind.JAXBElement
 
 
 val batchesModule = module {
@@ -58,7 +61,8 @@ fun Routing.batches() {
         Batch.setBatchSize(request.numberOfMessages)
         Batch.startRunning()
         Batch.resetMessageCounter()
-        CompletableFuture.supplyAsync(Supplier { ConsumerMessageProducer(request.numberOfMessages).process() })
+        ConsumerMessageProducer(request.numberOfMessages).process()
+
         call.respond(HttpStatusCode.OK, "Messages created")
     }
 
@@ -93,7 +97,7 @@ class AckConsumerService: KoinComponent {
             val counterUpdated = Batch.messageCounter.addAndGet(1)
             if (Batch.continueRunning.get() && counterUpdated == Batch.batchSize.get()) {
                 Batch.resetMessageCounter()
-                CompletableFuture.supplyAsync(Supplier { ConsumerMessageProducer(Batch.batchSize.get()).process() })
+                ConsumerMessageProducer(Batch.batchSize.get()).process()
             }
         }
 

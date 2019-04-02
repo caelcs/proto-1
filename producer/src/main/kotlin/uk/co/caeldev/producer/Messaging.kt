@@ -2,6 +2,8 @@ package uk.co.caeldev.producer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.config.HoconApplicationConfig
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -14,7 +16,6 @@ import org.koin.standalone.inject
 import uk.org.fyodor.generators.RDG.string
 import java.util.*
 import java.util.concurrent.Future
-import java.util.stream.IntStream
 import kotlin.collections.set
 
 val messagingModule = module {
@@ -61,11 +62,13 @@ class ConsumerMessageProducer(private val numberOfMessages: Int): KoinComponent 
     private val metricRegistry: MetricRegistry by inject()
 
     fun process() {
-        IntStream.range(0, numberOfMessages).parallel().forEach {
-            val person = Person(string().next(), string().next())
-            messagingService.createMessage(UUID.randomUUID().toString(), person)
+        GlobalScope.async {
+            repeat(numberOfMessages) {
+                val person = Person(string().next(), string().next())
+                messagingService.createMessage(UUID.randomUUID().toString(), person)
+            }
+            metricRegistry.countBatch()
         }
-        metricRegistry.countBatch()
     }
 
 }
