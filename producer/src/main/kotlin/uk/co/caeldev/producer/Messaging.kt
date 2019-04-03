@@ -2,8 +2,7 @@ package uk.co.caeldev.producer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.config.HoconApplicationConfig
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
+import kotlinx.coroutines.*
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
@@ -63,11 +62,16 @@ class ConsumerMessageProducer(private val numberOfMessages: Int): KoinComponent 
 
     fun process() {
         GlobalScope.async {
-            repeat(numberOfMessages) {
-                val person = Person(string().next(), string().next())
-                messagingService.createMessage(UUID.randomUUID().toString(), person)
+            coroutineScope {
+                repeat(numberOfMessages) {
+                    async {
+                        val person = Person(string().next(), string().next())
+                        messagingService.createMessage(UUID.randomUUID().toString(), person)
+                    }
+
+                }
+                metricRegistry.countBatch()
             }
-            metricRegistry.countBatch()
         }
     }
 

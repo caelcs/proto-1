@@ -7,7 +7,7 @@ echo 'MACHINE' $MACHINE
 if [ -z "$MACHINE" ]
 then
     echo 'creating proto-1'
-    docker-machine create --driver virtualbox --virtualbox-memory "10024" proto-1
+    docker-machine create --driver virtualbox --virtualbox-memory "10024" --virtualbox-disk-size "400000" proto-1
     docker-machine start proto-1
 fi
 
