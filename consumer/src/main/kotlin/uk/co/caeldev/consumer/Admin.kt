@@ -7,6 +7,7 @@ import io.ktor.routing.get
 import io.micrometer.core.instrument.Counter
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Metrics
+import io.micrometer.core.instrument.Timer
 import io.micrometer.core.instrument.binder.MeterBinder
 import io.micrometer.core.instrument.binder.jvm.ClassLoaderMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
@@ -16,6 +17,7 @@ import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 import org.koin.dsl.module.module
 import org.koin.ktor.ext.inject
+import java.util.concurrent.TimeUnit
 
 val adminModule = module {
     single { MetricRegistry(listOf(ClassLoaderMetrics(),
@@ -33,6 +35,10 @@ class CustomMeter: MeterBinder {
                 .baseUnit("messages")
                 .description("ACK Number of messages consumed from kafka")
                 .register(registry)
+
+        Timer.builder("downstream_delay")
+            .description("emulated delay for downstream system")
+            .register(registry)
     }
 }
 
@@ -48,7 +54,6 @@ fun Routing.admin() {
         call.respondText(metricRegistry.getMetrics())
     }
 }
-
 class MetricRegistry(metrics: List<MeterBinder>) {
 
     private val registry = PrometheusMeterRegistry(PrometheusConfig.DEFAULT)
@@ -70,4 +75,10 @@ class MetricRegistry(metrics: List<MeterBinder>) {
     fun countAckMessage() {
         Metrics.counter("ack_consumer_number_messages").increment()
     }
+
+    fun trackDelay(duration: Long) {
+        Metrics.timer("downstream_delay").record(duration, TimeUnit.MILLISECONDS)
+    }
+
 }
+

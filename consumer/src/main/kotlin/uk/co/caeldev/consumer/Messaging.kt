@@ -78,7 +78,9 @@ class StreamsProcessor: KoinComponent {
 
     private fun sendRequest(person: Person) {
         GlobalScope.async {
-            delay(longVal(Range.closed(500L, 10000L)).next())
+            val duration: Long = longVal(Range.closed(500L, 10000L)).next()
+            metricRegistry.trackDelay(duration)
+            delay(duration)
             ackProducer.produce(UUID.randomUUID(), person)
             metricRegistry.countMessage()
         }

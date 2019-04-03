@@ -68,10 +68,9 @@ class ConsumerMessageProducer(private val numberOfMessages: Int): KoinComponent 
                         val person = Person(string().next(), string().next())
                         messagingService.createMessage(UUID.randomUUID().toString(), person)
                     }
-
                 }
-                metricRegistry.countBatch()
             }
+            metricRegistry.countBatch()
         }
     }
 
