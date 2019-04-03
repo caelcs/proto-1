@@ -52,4 +52,5 @@ echo "running prometheus y grafana"
 docker-compose -f docker/infrastructure.yml -f docker/apps.yml -f docker/monitor.yml up -d
 
 echo "Installation done"
-echo "IP address for all the services is http://"$DOCKER_MACHINE_IP
+echo "grafana http://"$DOCKER_MACHINE_IP":3000"
+echo "prom http://"$DOCKER_MACHINE_IP":9090"
