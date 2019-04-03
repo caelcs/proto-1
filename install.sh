@@ -54,3 +54,4 @@ docker-compose -f docker/infrastructure.yml -f docker/apps.yml -f docker/monitor
 echo "Installation done"
 echo "grafana http://"$DOCKER_MACHINE_IP":3000"
 echo "prom http://"$DOCKER_MACHINE_IP":9090"
+echo "producer http://"$DOCKER_MACHINE_IP":8080"
