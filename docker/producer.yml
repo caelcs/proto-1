@@ -1,16 +1,15 @@
 version: "3.3"
 
 services:
-
-  consumer1:
-    image: adolfoecs/consumer:latest
-    hostname: consumer1
+  producer1:
+    image: adolfoecs/producer:latest
+    hostname: producer1
     ports:
-      - "8090-8099:8090"
+      - "8080:8080"
     environment:
       KAFKA_BROKER: "kafka1:9092"
       CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
-      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}_1"
+      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}"
       ACK_CONSUMER_TOPIC: "${ACK_CONSUMER_TOPIC}"
     depends_on:
       - kafka1

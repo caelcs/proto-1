@@ -3,7 +3,6 @@
 MACHINE=`docker-machine ls | grep proto-1 | awk '{print $1}'`
 echo 'MACHINE' $MACHINE
 
-
 if [ -z "$MACHINE" ]
 then
     echo 'creating proto-1'
@@ -22,15 +21,19 @@ echo "Deleting volumes for zookeeper"
 rm -rf docker/zoo1
 
 echo "stopping all containers if there are running"
-docker-compose -f docker/infrastructure.yml -f docker/apps.yml -f docker/monitor.yml down
+docker-compose -f docker/infrastructure.yml -f docker/producer.yml -f docker/consumer.yml -f docker/monitor.yml down --remove-orphans
 
 echo "build apps"
-./gradlew :producer:clean :producer:build
-./gradlew :consumer:clean :consumer:build
 
-echo "build images for the apps"
-docker build -t adolfoecs/consumer:latest ./consumer
-docker build -t adolfoecs/producer:latest ./producer
+if [ -z "$1" ]
+then
+    ./gradlew :producer:clean :producer:build
+    ./gradlew :consumer:clean :consumer:build
+
+    echo "build images for the apps"
+    docker build -t adolfoecs/consumer:latest ./consumer
+    docker build -t adolfoecs/producer:latest ./producer
+fi
 
 echo "running kafka and zookeeper"
 docker-compose -f docker/infrastructure.yml up -d
@@ -44,12 +47,9 @@ docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topi
 docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic $ACK_CONSUMER_TOPIC
 
 echo "running consumer and producer"
-docker-compose -f docker/infrastructure.yml -f docker/apps.yml up -d
+docker-compose -f docker/infrastructure.yml -f docker/producer.yml -f docker/consumer.yml -f docker/monitor.yml up -d --scale consumer1=3 --no-recreate
 
 sleep 5
-
-echo "running prometheus y grafana"
-docker-compose -f docker/infrastructure.yml -f docker/apps.yml -f docker/monitor.yml up -d
 
 echo "Installation done"
 echo "grafana http://"$DOCKER_MACHINE_IP":3000"

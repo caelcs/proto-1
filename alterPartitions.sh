@@ -11,4 +11,4 @@ echo "creating topic"
 docker exec docker_kafka1_1 kafka-topics --alter --zookeeper zoo1:2181 --partitions $1 --topic $CONSUMER_TOPIC
 docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic $CONSUMER_TOPIC
 
-echo "Finished. You have "$0" partitions now."
+echo "Finished. You have "$1" partitions now."

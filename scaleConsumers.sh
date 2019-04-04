@@ -9,7 +9,7 @@ export CONSUMER_TOPIC="CONSUMER_TOPIC"
 export ACK_CONSUMER_TOPIC="ACK_CONSUMER_TOPIC"
 export ACK_CONSUMER_CLIENT_ID="clientId"
 
-echo "running consumer and producer"
-docker-compose -f docker/infrastructure.yml -f docker/consumer.yml up -d
+echo "running consumer"
+docker-compose -f docker/infrastructure.yml -f docker/consumer.yml up -d --scale consumer1=$1 --no-recreate
 
 echo "Installation done"
