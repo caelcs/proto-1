@@ -1,0 +1,17 @@
+version: "3.3"
+
+services:
+
+  consumer4:
+    image: adolfoecs/consumer:latest
+    hostname: consumer4
+    ports:
+      - "8094:8094"
+    environment:
+      KAFKA_BROKER: "kafka1:9092"
+      PORT: "8094"
+      CONSUMER_TOPIC: "${CONSUMER_TOPIC}"
+      ACK_CONSUMER_CLIENT_ID: "${ACK_CONSUMER_CLIENT_ID}_1"
+      ACK_CONSUMER_TOPIC: "${ACK_CONSUMER_TOPIC}"
+    depends_on:
+      - kafka1
