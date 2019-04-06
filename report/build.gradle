@@ -1,0 +1,69 @@
+buildscript {
+    project.ext {
+        ktor_version = '1.0.0'
+        junit_version = '5.3.2'
+        mockk_version = '1.8.13'
+        assertj_version = '3.11.1'
+        builder4test_version = '0.1.12'
+        logback_version = '1.2.3'
+        koin_version = '1.0.2'
+        micrometer_version = '1.1.0'
+        quartz_version = '2.3.0'
+        kafka_version = '2.1.0'
+    }
+}
+
+plugins {
+    id 'java'
+    id 'application'
+    id 'org.jetbrains.kotlin.jvm' version '1.3.10'
+    id 'com.github.johnrengelman.shadow' version '4.0.1'
+    id 'pl.allegro.tech.build.axion-release' version '1.9.3'
+}
+
+group 'uk.co.caeldev.report'
+project.version = scmVersion.version
+mainClassName = "io.ktor.server.netty.DevelopmentEngine"
+
+repositories {
+    jcenter()
+    maven { url "https://dl.bintray.com/kotlin/ktor" }
+    mavenCentral()
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
+    implementation "org.jetbrains.kotlin:kotlin-reflect"
+    implementation "io.ktor:ktor-metrics:$ktor_version"
+    implementation "io.ktor:ktor-server-netty:$ktor_version"
+    implementation "ch.qos.logback:logback-classic:$logback_version"
+    implementation "org.koin:koin-ktor:$koin_version"
+    implementation "org.koin:koin-logger-slf4j:$koin_version"
+    implementation "io.micrometer:micrometer-registry-prometheus:$micrometer_version"
+    implementation "org.quartz-scheduler:quartz:$quartz_version"
+    implementation "org.apache.kafka:kafka-clients:$kafka_version"
+    implementation "org.apache.kafka:kafka-streams:$kafka_version"
+    implementation "com.fasterxml.jackson.module:jackson-module-kotlin:2.9.8"
+    implementation "com.fasterxml.jackson.core:jackson-databind:2.9.8"
+    implementation "io.ktor:ktor-jackson:$ktor_version"
+    implementation 'uk.org.fyodor:fyodor-core:1.0.0'
+
+    testImplementation "uk.co.caeldev:builder4test:$builder4test_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "org.koin:koin-test:$koin_version"
+    testImplementation "io.ktor:ktor-server-test-host:$ktor_version"
+    testImplementation "org.assertj:assertj-core:$assertj_version"
+}
+
+shadowJar {
+    baseName = "${project.name}"
+    classifier = null
+    version = null
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
