@@ -38,7 +38,7 @@ fi
 echo "running kafka and zookeeper"
 docker-compose -f docker/infrastructure.yml up -d
 
-sleep 5
+sleep 10
 
 echo "creating topic"
 docker exec docker_kafka1_1 kafka-topics --create --zookeeper zoo1:2181 --replication-factor 1 --partitions 3 --topic $CONSUMER_TOPIC
