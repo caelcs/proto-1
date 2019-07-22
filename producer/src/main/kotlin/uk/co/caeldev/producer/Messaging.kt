@@ -2,16 +2,19 @@ package uk.co.caeldev.producer
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import io.ktor.config.HoconApplicationConfig
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
 import org.apache.kafka.clients.producer.KafkaProducer
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.clients.producer.ProducerRecord
 import org.apache.kafka.clients.producer.RecordMetadata
 import org.apache.kafka.common.serialization.StringSerializer
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module.module
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.qualifier.named
+import org.koin.dsl.module
 import uk.org.fyodor.generators.RDG.string
 import java.util.*
 import java.util.concurrent.Future
@@ -19,7 +22,7 @@ import kotlin.collections.set
 
 val messagingModule = module {
 
-    single("messagingServicePerson") {
+    single(named("messagingServicePerson")) {
         MessagingService<Person>()
     }
 

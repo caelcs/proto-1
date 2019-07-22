@@ -14,7 +14,7 @@ import io.micrometer.core.instrument.binder.jvm.JvmThreadMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
-import org.koin.dsl.module.module
+import org.koin.dsl.module
 import org.koin.ktor.ext.inject
 
 val adminModule = module {

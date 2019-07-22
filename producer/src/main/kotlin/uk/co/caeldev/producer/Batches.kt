@@ -8,23 +8,18 @@ import io.ktor.response.respond
 import io.ktor.routing.Routing
 import io.ktor.routing.delete
 import io.ktor.routing.post
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
 import org.apache.kafka.common.serialization.Serdes
 import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.StreamsConfig
 import org.apache.kafka.streams.kstream.Consumed
 import org.apache.kafka.streams.kstream.KStream
-import org.koin.dsl.module.module
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.core.KoinComponent
+import org.koin.core.inject
+import org.koin.dsl.module
 import java.util.*
-import java.util.concurrent.CompletableFuture
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicInteger
-import java.util.function.Supplier
-import javax.xml.bind.JAXBElement
 
 
 val batchesModule = module {

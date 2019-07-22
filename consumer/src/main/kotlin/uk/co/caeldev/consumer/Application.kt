@@ -15,16 +15,19 @@ import io.ktor.http.HttpStatusCode
 import io.ktor.request.path
 import io.ktor.response.respond
 import io.ktor.routing.routing
-import org.koin.dsl.module.module
-import org.koin.log.Logger.SLF4JLogger
-import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.Logger.slf4jLogger
+import org.koin.dsl.module
+import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 
 fun Application.main() {
     install(DefaultHeaders)
     install(ConditionalHeaders)
     install(Compression)
-    startKoin(listOf(adminModule, commonModule, messagingModule), logger = SLF4JLogger())
+    install(Koin) {
+        slf4jLogger()
+        modules(listOf(adminModule, commonModule, messagingModule))
+    }
 
     install(StatusPages) {
         exception<NotImplementedError> { call.respond(HttpStatusCode.NotImplemented) }

@@ -16,10 +16,10 @@ import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.StreamsConfig
 import org.apache.kafka.streams.kstream.Consumed
 import org.apache.kafka.streams.kstream.KStream
+import org.koin.core.KoinComponent
+import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
-import org.koin.dsl.module.module
-import org.koin.standalone.KoinComponent
-import org.koin.standalone.inject
+import org.koin.dsl.module
 import uk.org.fyodor.generators.RDG.longVal
 import uk.org.fyodor.range.Range
 import java.util.*

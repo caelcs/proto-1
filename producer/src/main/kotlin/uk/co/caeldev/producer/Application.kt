@@ -17,9 +17,9 @@ import io.ktor.jackson.JacksonConverter
 import io.ktor.request.path
 import io.ktor.response.respond
 import io.ktor.routing.routing
-import org.koin.dsl.module.module
-import org.koin.log.Logger.SLF4JLogger
-import org.koin.standalone.StandAloneContext.startKoin
+import org.koin.Logger.slf4jLogger
+import org.koin.dsl.module
+import org.koin.ktor.ext.Koin
 import org.slf4j.event.Level
 
 fun Application.main() {
@@ -30,7 +30,10 @@ fun Application.main() {
         register(ContentType.Application.Json, JacksonConverter())
     }
 
-    startKoin(listOf(commonModule, adminModule, messagingModule, batchesModule), logger = SLF4JLogger())
+    install(Koin) {
+        slf4jLogger()
+        modules(listOf(commonModule, adminModule, messagingModule, batchesModule))
+    }
 
     install(StatusPages) {
         exception<NotImplementedError> { call.respond(HttpStatusCode.NotImplemented) }
