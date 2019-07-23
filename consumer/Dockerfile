@@ -4,7 +4,7 @@ FROM openjdk:8-jre-alpine
 # We define the user we will use in this instance to prevent using root that even in a container, can be a security risk.
 ENV APPLICATION_USER caeldev
 ENV KAFKA_BROKER localhost:9092
-ENV CONSUMER_TOPIC test-topic
+ENV CONSUMER_TOPICS ["test-topic1"]
 ENV ACK_CONSUMER_CLIENT_ID ack-consumerT-test1
 ENV ACK_CONSUMER_TOPIC ack-consumer-topic
 

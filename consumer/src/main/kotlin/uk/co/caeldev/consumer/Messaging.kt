@@ -15,7 +15,6 @@ import org.apache.kafka.streams.KafkaStreams
 import org.apache.kafka.streams.StreamsBuilder
 import org.apache.kafka.streams.StreamsConfig
 import org.apache.kafka.streams.kstream.Consumed
-import org.apache.kafka.streams.kstream.KStream
 import org.koin.core.KoinComponent
 import org.koin.core.inject
 import org.koin.core.parameter.parametersOf
@@ -62,12 +61,14 @@ class StreamsProcessor: KoinComponent {
     fun process() {
         val streamsBuilder = StreamsBuilder()
 
-        val personJsonStream: KStream<String, String> = streamsBuilder
-                .stream(configYml.property("ktor.kafka.consumerTopic").getString(), Consumed.with(Serdes.String(), Serdes.String()))
+        val consumerTopics = configYml.property("ktor.kafka.consumerTopics").getList()
 
-        personJsonStream.peek { key, value ->
-            val person = objectMapper.readValue(value, Person::class.java)
-            sendRequest(person)
+        val map = consumerTopics.map { it ->
+            {
+                streamsBuilder.stream(it, Consumed.with(Serdes.String(), Serdes.String())).peek { key, value ->
+                            val person = objectMapper.readValue(value, Person::class.java)
+                            sendRequest(person, it)}
+            }
         }
 
         val topology = streamsBuilder.build()
@@ -76,11 +77,11 @@ class StreamsProcessor: KoinComponent {
         streams.start()
     }
 
-    private fun sendRequest(person: Person) {
+    private fun sendRequest(person: Person, topic: String) {
         GlobalScope.async {
             delay(longVal(Range.closed(500L, 10000L)).next())
             ackProducer.produce(UUID.randomUUID(), person)
-            metricRegistry.countMessage()
+            metricRegistry.countMessage(topic)
         }
     }
 }

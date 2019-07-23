@@ -11,8 +11,9 @@ then
 fi
 
 eval "$(docker-machine env proto-1)"
+consumertopicVar=("CONSUMER_TOPIC")
 export DOCKER_MACHINE_IP=`docker-machine ip proto-1`
-export CONSUMER_TOPIC="CONSUMER_TOPIC"
+export CONSUMER_TOPIC=
 export ACK_CONSUMER_TOPIC="ACK_CONSUMER_TOPIC"
 export ACK_CONSUMER_CLIENT_ID="clientId"
 
@@ -41,9 +42,14 @@ docker-compose -f docker/infrastructure.yml up -d
 sleep 10
 
 echo "creating topic"
-docker exec docker_kafka1_1 kafka-topics --create --zookeeper zoo1:2181 --replication-factor 1 --partitions 3 --topic $CONSUMER_TOPIC
+
+for i in ${consumertopicVar[@]}; do
+    docker exec docker_kafka1_1 kafka-topics --create --zookeeper zoo1:2181 --replication-factor 1 --partitions 3 --topic ${i}
+    docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic ${i}
+done
+
+
 docker exec docker_kafka1_1 kafka-topics --create --zookeeper zoo1:2181 --replication-factor 1 --partitions 3 --topic $ACK_CONSUMER_TOPIC
-docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic $CONSUMER_TOPIC
 docker exec docker_kafka1_1 kafka-topics --describe --zookeeper zoo1:2181 --topic $ACK_CONSUMER_TOPIC
 
 echo "running consumer and producer"
